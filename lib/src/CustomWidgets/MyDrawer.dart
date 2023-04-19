@@ -8,13 +8,13 @@ class MyDrawer extends StatelessWidget {
     // TODO: implement build
     return Drawer(
       child: Column(
-        children: [
+        children: const [
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(
               color: Colors.black
             ),
-              accountName: Text("Roberto Castro"),
-              accountEmail: Text("racastro@galileo.edu")
+            accountName: Text("Roberto Castro"),
+            accountEmail: Text("racastro@galileo.edu")
           )
         ],
       )
