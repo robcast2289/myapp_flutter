@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/src/models/EventosLoginModel.dart';
 
+import '../models/models.dart';
+
 class EventoHead extends StatelessWidget {
   EventoHead(this.event, this._detalle, {Key? key}) : super(key: key);
-  Eventos event;
+  Evento event;
   bool _detalle;
   @override
   Widget build(BuildContext context) {
@@ -16,13 +18,25 @@ class EventoHead extends StatelessWidget {
         if(_detalle)...{
           Text(event.descripcion!, style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
           ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: Image.network("https://eventos.galileo.edu${event.fotoevento!}")
+              borderRadius: BorderRadius.circular(20.0),
+              child: FadeInImage(
+                  placeholder: AssetImage('assets/images/no-image.jpg'), 
+                  image: NetworkImage("${event.fullPathImg!}"),              
+                  fit: BoxFit.cover,                 
+              ),
           ),
         }else...{
           ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: Image.network("https://eventos.galileo.edu${event.fotoevento!}")
+              borderRadius: BorderRadius.circular(20.0),
+              child: Hero(
+                tag: event.evento!,
+                child: FadeInImage(
+                    placeholder: AssetImage('assets/images/img_processing.gif'), 
+                    image: NetworkImage("${event.fullPathImg!}"),              
+                    fit: BoxFit.cover,
+                    
+                ),
+              ),
           ),
           Text(event.descripcion!, style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
         },
@@ -51,6 +65,7 @@ class EventoHead extends StatelessWidget {
             ),
           ],
         ),
+        if(event.finasignacion != null)...{
         Row(
           children: [
             Icon(Icons.event,size: 15.0,),
@@ -62,6 +77,7 @@ class EventoHead extends StatelessWidget {
             )
           ],
         ),
+        },
         Row(
           children: [
             (_detalle ?

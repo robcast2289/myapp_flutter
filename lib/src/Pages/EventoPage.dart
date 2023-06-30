@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:myapp/src/CustomWidgets/EventoHead.dart';
-import 'package:myapp/src/models/DetalleLoginModel.dart';
-import 'package:myapp/src/models/EventosLoginModel.dart';
+import 'package:myapp/src/CustomWidgets/eventoDetail.dart';
 
-import '../Services/EventosServices.dart';
+import '../models/models.dart';
 
-class eventoPage extends StatefulWidget {
-  eventoPage(this.event, {Key? key}) : super(key: key);
-  Eventos event;
-  @override
-  State<eventoPage> createState() => _eventoPageState();
-}
-
-EventosServices _eventos = new EventosServices();
-
-class _eventoPageState extends State<eventoPage> {
+class eventoPage extends StatelessWidget {
+  eventoPage({Key? key}) : super(key: key);
+  
   late Future<DetalleLogin> _detalleLog;
 
-  @override
+  /* @override
   void initState() {
     super.initState();
 
@@ -28,18 +18,154 @@ class _eventoPageState extends State<eventoPage> {
 
     _detalleLog = _eventos.cargar_detalle(widget.event.evento);
     print(_detalleLog);
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
+
+    final Evento event = ModalRoute.of(context)!.settings.arguments as Evento;
+
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
+      body: CustomScrollView(
+        slivers: [
+          _CustomAppBar(event: event),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              _Overview(event: event),
+              EventoDetail(eventId: event.evento!)
+            ]),
+          )
+        ],
+      )
+    );
+  }
+}
+
+class _CustomAppBar extends StatelessWidget {
+
+  final Evento event;
+
+  const _CustomAppBar({super.key, required this.event});
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      backgroundColor: Color.fromARGB(255, 0, 151, 152),
+      expandedHeight: 200,
+      floating: false,
+      pinned: true,
+      flexibleSpace: FlexibleSpaceBar(
+        //collapseMode: CollapseMode.none,
+        centerTitle: true,
+        titlePadding: EdgeInsets.all(0),
+        title: Container(
+          width: double.infinity,
+          alignment: Alignment.bottomCenter,
+          padding: EdgeInsets.only(bottom: 15, left: 10, right: 10),
+          color: Colors.black12,
+          child: Text(
+              event.descripcion!,
+              style: TextStyle(fontSize: 16,backgroundColor: Colors.black45),
+              textAlign: TextAlign.center,
+            )
+        ),
+        background: Hero(
+          tag: event.evento!,
+          child: FadeInImage(
+            placeholder: AssetImage('assets/images/loading.gif'),
+            image: NetworkImage(event.fullPathImg),
+            fit: BoxFit.cover,
+          ),
+        )
+      ),
+    );
+  }
+}
+
+class _Overview extends StatelessWidget {
+  
+  final Evento event;
+
+  const _Overview({super.key, required this.event});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _startEndDate(title: "Fecha de inicio", date: event.fechaini!, width: 140,),
+              _startEndDate(title: "Fecha de finalización", date: event.fechafin!, width: 140,),
+            ],
+          ),
+          SizedBox(height: 10,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if(event.finasignacion != null)...{
+              _startEndDate(title: "Ultimo dia para asignarse", date: event.finasignacion!, width: 290,),
+              }
+            ],
+          )
+        ],
+      ),
+      
+    );
+  }
+}
+
+class _startEndDate extends StatelessWidget {
+  final String title;
+  final String date;
+  final double width;
+  const _startEndDate({super.key, required this.title, required this.date, required this.width});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(left: 10,right: 10),
+                color: Color.fromARGB(136, 173, 173, 173),
+                child: Column(
+                 children:[ 
+                  Text(title),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [              
+                      Text(DateFormat('dd').format(DateTime.parse(date)),
+                      style: TextStyle(fontSize: 42,fontWeight: FontWeight.bold, color: Color.fromARGB(255, 0, 151, 152)),),
+                      Column(
+                        children: [
+                          Text(DateFormat('MMM').format(DateTime.parse(date)),
+                          style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold, color: Color.fromARGB(255, 0, 151, 152)), ),
+                          Text(DateFormat('yyyy').format(DateTime.parse(date)))
+                        ],                
+                      ),              
+                    ],
+                  ),
+                 ]
+                ),
+              ),
+            ),
+    );
+  }
+}
+
+
+/*
+Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            EventoHead(widget.event, true),
+            EventoHead(event, true),
             SizedBox(
                 width: double.infinity,
                 height: 40,
@@ -133,11 +259,9 @@ class _eventoPageState extends State<eventoPage> {
           ],
         ),
       ),
-    );
-  }
-}
+*/
 
-Widget _listHorario(BuildContext context, List<Horario> data) {
+/*Widget _listHorario(BuildContext context, List<Horario> data) {
   return (ListView.builder(
     //scrollDirection: Axis.vertical,
     shrinkWrap: true,
@@ -236,4 +360,4 @@ Widget _listPersonal(BuildContext context, List<Personal> data){
       );
     },
   ));
-}
+}*/

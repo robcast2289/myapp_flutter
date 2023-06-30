@@ -8,23 +8,18 @@ import 'package:myapp/src/Services/EventosServices.dart';
 import 'package:myapp/src/models/EventosLoginModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+import '../CustomWidgets/widgets.dart';
 
-  @override
-  _HomePageState createState() {
-    return _HomePageState();
-  }
-}
+class HomePage extends StatelessWidget {
 
-EventosServices _eventos = new EventosServices();
+  
 
-class _HomePageState extends State<HomePage> {
+  //EventosServices _eventos = new EventosServices();
+  //late Future<EventosLogin> _eventosLogList;
 
-  late Future<EventosLogin> _eventosLogList;
-
-  @override
+  /*@override
   void initState() {
     super.initState();
 
@@ -36,16 +31,28 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     super.dispose();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
+
+    final _eventos = Provider.of<EventosServices>(context);
+
     // TODO: implement build
     return Scaffold(
         appBar: AppBar(
           title: Text('Próximos Eventos'),
+          elevation: 0,
         ),
-        body: FutureBuilder(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              CardList(eventos: _eventos.onDisplayEvents,),
+            ],
+          ),
+        ),
+        
+        /* FutureBuilder(
           future: _eventosLogList,
           builder: (context, snapshot) {
             if(snapshot.hasData){
@@ -68,13 +75,13 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             );
           },
-        ),
+        ), */
       drawer: MyDrawer(),
     );
   }
 }
 
-Widget _listEventos(BuildContext context, List<Eventos> data){
+/* Widget _listEventos(BuildContext context, List<Eventos> data){
   return (
       ListView.builder(
           itemCount: data.length,
@@ -110,4 +117,4 @@ Widget _listEventos(BuildContext context, List<Eventos> data){
           }
       )
   );
-}
+} */

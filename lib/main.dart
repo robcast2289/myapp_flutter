@@ -1,26 +1,31 @@
 
 import 'package:flutter/material.dart';
+import 'package:myapp/src/Pages/EventoPage.dart';
 import 'package:myapp/src/Pages/Home.dart';
 import 'package:intl/intl.dart';
+import 'package:myapp/src/Services/EventosServices.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   Intl.defaultLocale = 'en-US';
-  runApp(MyApp());
+  runApp(AppState());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
+class AppState extends StatelessWidget {
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create:(context) => EventosServices(), lazy: false,)
+      ],
+      child: MyApp(),
+    );
   }
+}
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   MaterialColor getMaterialColor(Color color) {
     final Map<int, Color> shades = {
       50: Color.fromRGBO(136, 14, 79, .1),
@@ -40,11 +45,20 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: getMaterialColor(Color(0xff009798))
-      ),
+      debugShowCheckedModeBanner: false,
       title: 'Material App',
-      home: HomePage()
+      initialRoute: 'home',
+      routes: {
+        'home':(context) => HomePage(),
+        'evento':(context) => eventoPage()
+      },
+      theme: ThemeData.light().copyWith(
+        //primarySwatch: getMaterialColor(Color(0xff009798))
+        appBarTheme: AppBarTheme(
+          color: getMaterialColor(Color(0xff009798)),
+        )
+      ),
+      //home: HomePage()
     );
   }
 }

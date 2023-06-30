@@ -1,176 +1,117 @@
+// To parse this JSON data, do
+//
+//     final detalleLogin = detalleLoginFromJson(jsonString);
+
+import 'dart:convert';
+
+DetalleLogin detalleLoginFromJson(String str) => DetalleLogin.fromJson(json.decode(str));
+
+String detalleLoginToJson(DetalleLogin data) => json.encode(data.toJson());
+
 class DetalleLogin {
-  //List<Null>? detalle;
-  List<Horario>? horario;
-  List<Personal>? personal;
-  /*List<Null>? personalExterno;
-  List<Null>? galeria;
-  List<Null>? agenda;*/
-  ActividadesxSemana? actividadesxSemana;
+    List<Detalle> detalle;
+    List<dynamic> horario;
+    List<Personal> personal;
+    List<dynamic> personalExterno;
+    List<dynamic> galeria;
+    List<dynamic> agenda;
+    ActividadesxSemana actividadesxSemana;
 
-  DetalleLogin(
-      {//this.detalle,
-        this.horario,
-        this.personal,
-        /*this.personalExterno,
-        this.galeria,
-        this.agenda,
-        this.actividadesxSemana*/});
+    DetalleLogin({
+        required this.detalle,
+        required this.horario,
+        required this.personal,
+        required this.personalExterno,
+        required this.galeria,
+        required this.agenda,
+        required this.actividadesxSemana,
+    });
 
-  DetalleLogin.fromJson(Map<String, dynamic> json) {
-    /*if (json['Detalle'] != null) {
-      detalle = <Null>[];
-      json['Detalle'].forEach((v) {
-        detalle!.add(new Null.fromJson(v));
-      });
-    }*/
-    if (json['Horario'] != null) {
-      horario = <Horario>[];
-      json['Horario'].forEach((v) {
-        horario!.add(new Horario.fromJson(v));
-      });
-    }
-    if (json['Personal'] != null) {
-      personal = <Personal>[];
-      json['Personal'].forEach((v) {
-        personal!.add(new Personal.fromJson(v));
-      });
-    }
-    /*if (json['PersonalExterno'] != null) {
-      personalExterno = <Null>[];
-      json['PersonalExterno'].forEach((v) {
-        personalExterno!.add(new Null.fromJson(v));
-      });
-    }
-    if (json['Galeria'] != null) {
-      galeria = <Null>[];
-      json['Galeria'].forEach((v) {
-        galeria!.add(new Null.fromJson(v));
-      });
-    }
-    if (json['Agenda'] != null) {
-      agenda = <Null>[];
-      json['Agenda'].forEach((v) {
-        agenda!.add(new Null.fromJson(v));
-      });
-    }
-    actividadesxSemana = json['ActividadesxSemana'] != null
-        ? new ActividadesxSemana.fromJson(json['ActividadesxSemana'])
-        : null;*/
-  }
+    factory DetalleLogin.fromJson(Map<String, dynamic> json) => DetalleLogin(
+        detalle: List<Detalle>.from(json["Detalle"].map((x) => Detalle.fromJson(x))),
+        horario: List<dynamic>.from(json["Horario"].map((x) => x)),
+        personal: List<Personal>.from(json["Personal"].map((x) => Personal.fromJson(x))),
+        personalExterno: List<dynamic>.from(json["PersonalExterno"].map((x) => x)),
+        galeria: List<dynamic>.from(json["Galeria"].map((x) => x)),
+        agenda: List<dynamic>.from(json["Agenda"].map((x) => x)),
+        actividadesxSemana: ActividadesxSemana.fromJson(json["ActividadesxSemana"]),
+    );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    /*if (this.detalle != null) {
-      data['Detalle'] = this.detalle!.map((v) => v.toJson()).toList();
-    }*/
-    if (this.horario != null) {
-      data['Horario'] = this.horario!.map((v) => v.toJson()).toList();
-    }
-    if (this.personal != null) {
-      data['Personal'] = this.personal!.map((v) => v.toJson()).toList();
-    }
-    /*if (this.personalExterno != null) {
-      data['PersonalExterno'] =
-          this.personalExterno!.map((v) => v.toJson()).toList();
-    }
-    if (this.galeria != null) {
-      data['Galeria'] = this.galeria!.map((v) => v.toJson()).toList();
-    }
-    if (this.agenda != null) {
-      data['Agenda'] = this.agenda!.map((v) => v.toJson()).toList();
-    }
-    if (this.actividadesxSemana != null) {
-      data['ActividadesxSemana'] = this.actividadesxSemana!.toJson();
-    }*/
-    return data;
-  }
-}
-
-class Horario {
-  String? dia;
-  String? dianombre;
-  String? horaini;
-  String? horafin;
-  String? torre;
-  String? salon;
-  String? correlativo;
-
-  Horario(
-      {this.dia,
-        this.dianombre,
-        this.horaini,
-        this.horafin,
-        this.torre,
-        this.salon,
-        this.correlativo});
-
-  Horario.fromJson(Map<String, dynamic> json) {
-    dia = json['Dia'];
-    dianombre = json['Dianombre'];
-    horaini = json['Horaini'];
-    horafin = json['Horafin'];
-    torre = json['Torre'];
-    salon = json['Salon'];
-    correlativo = json['Correlativo'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Dia'] = this.dia;
-    data['Dianombre'] = this.dianombre;
-    data['Horaini'] = this.horaini;
-    data['Horafin'] = this.horafin;
-    data['Torre'] = this.torre;
-    data['Salon'] = this.salon;
-    data['Correlativo'] = this.correlativo;
-    return data;
-  }
-}
-
-class Personal {
-  String? nombre;
-  String? puesto;
-  String? correlativo;
-  String? fOTO;
-
-  Personal({this.nombre, this.puesto, this.correlativo, this.fOTO});
-
-  Personal.fromJson(Map<String, dynamic> json) {
-    nombre = json['Nombre'];
-    puesto = json['Puesto'];
-    correlativo = json['Correlativo'];
-    fOTO = json['FOTO'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Nombre'] = this.nombre;
-    data['Puesto'] = this.puesto;
-    data['Correlativo'] = this.correlativo;
-    data['FOTO'] = this.fOTO;
-    return data;
-  }
+    Map<String, dynamic> toJson() => {
+        "Detalle": List<dynamic>.from(detalle.map((x) => x.toJson())),
+        "Horario": List<dynamic>.from(horario.map((x) => x)),
+        "Personal": List<dynamic>.from(personal.map((x) => x.toJson())),
+        "PersonalExterno": List<dynamic>.from(personalExterno.map((x) => x)),
+        "Galeria": List<dynamic>.from(galeria.map((x) => x)),
+        "Agenda": List<dynamic>.from(agenda.map((x) => x)),
+        "ActividadesxSemana": actividadesxSemana.toJson(),
+    };
 }
 
 class ActividadesxSemana {
-  List<Null>? actividades;
+    List<dynamic> actividades;
 
-  ActividadesxSemana({this.actividades});
+    ActividadesxSemana({
+        required this.actividades,
+    });
 
-  ActividadesxSemana.fromJson(Map<String, dynamic> json) {
-    /*if (json['Actividades'] != null) {
-      actividades = <Null>[];
-      json['Actividades'].forEach((v) {
-        actividades!.add(new Null.fromJson(v));
-      });
-    }*/
-  }
+    factory ActividadesxSemana.fromJson(Map<String, dynamic> json) => ActividadesxSemana(
+        actividades: List<dynamic>.from(json["Actividades"].map((x) => x)),
+    );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    /*if (this.actividades != null) {
-      data['Actividades'] = this.actividades!.map((v) => v.toJson()).toList();
-    }*/
-    return data;
-  }
+    Map<String, dynamic> toJson() => {
+        "Actividades": List<dynamic>.from(actividades.map((x) => x)),
+    };
+}
+
+class Detalle {
+    String evento;
+    String detalle;
+    String correlativo;
+
+    Detalle({
+        required this.evento,
+        required this.detalle,
+        required this.correlativo,
+    });
+
+    factory Detalle.fromJson(Map<String, dynamic> json) => Detalle(
+        evento: json["Evento"],
+        detalle: json["Detalle"],
+        correlativo: json["Correlativo"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "Evento": evento,
+        "Detalle": detalle,
+        "Correlativo": correlativo,
+    };
+}
+
+class Personal {
+    String nombre;
+    String puesto;
+    String correlativo;
+    String foto;
+
+    Personal({
+        required this.nombre,
+        required this.puesto,
+        required this.correlativo,
+        required this.foto,
+    });
+
+    factory Personal.fromJson(Map<String, dynamic> json) => Personal(
+        nombre: json["Nombre"],
+        puesto: json["Puesto"],
+        correlativo: json["Correlativo"],
+        foto: json["FOTO"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "Nombre": nombre,
+        "Puesto": puesto,
+        "Correlativo": correlativo,
+        "FOTO": foto,
+    };
 }
