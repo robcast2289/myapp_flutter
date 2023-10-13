@@ -30,6 +30,48 @@ class eventoPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           _CustomAppBar(event: event),
+          /* SliverLayoutBuilder(builder: (BuildContext context, constraints){
+            final scrolled = constraints.scrollOffset > 0;
+            var colorDeg = Color.fromARGB(255, 255, 255, 255);
+
+            var percent = 1 - (constraints.scrollOffset < 50 ? constraints.scrollOffset / 50 : 1);
+            const fromcr = 0;
+            const fromcg = 151;
+            const fromcb = 152;
+            var cr = 255 * percent;
+            var cg = (255 - 151) * percent;
+            var cb = (255 - 152) * percent;
+
+            colorDeg = Color.fromARGB(255, (fromcr+cr).toInt(), (fromcg+cg).toInt(), (fromcb+cb).toInt());
+
+            return
+          SliverAppBar(
+            primary: true,
+            //backgroundColor: Color.fromARGB(255, 0, 151, 152),
+            //backgroundColor: scrolled ? Color.fromARGB(255, 255, 255, 255) :  Color.fromARGB(255, 0, 151, 152),
+            backgroundColor: colorDeg,
+            expandedHeight: 100,
+            elevation: 0.0,
+            floating: false,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              titlePadding: EdgeInsets.all(0),
+              title: Container(
+                width: double.infinity,
+                alignment: Alignment.bottomCenter,
+                padding: EdgeInsets.only(top: 30, bottom: 20, left: 40, right: 10),
+                //color: Colors.black12,
+                child: Text(
+                    event.descripcion!,
+                    style: TextStyle(fontSize: 16,backgroundColor: Color.fromARGB(0, 0, 0, 0),color: Color.fromARGB(255, 0, 0, 0)),
+                    textAlign: TextAlign.center,
+                    maxLines:3,
+                  )
+              ),
+            ),
+          );
+          }), */
           SliverList(
             delegate: SliverChildListDelegate([
               _Overview(event: event),
@@ -50,36 +92,56 @@ class _CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverAppBar(
-      backgroundColor: Color.fromARGB(255, 0, 151, 152),
-      expandedHeight: 200,
-      floating: false,
-      pinned: true,
-      flexibleSpace: FlexibleSpaceBar(
-        //collapseMode: CollapseMode.none,
-        centerTitle: true,
-        titlePadding: EdgeInsets.all(0),
-        title: Container(
-          width: double.infinity,
-          alignment: Alignment.bottomCenter,
-          padding: EdgeInsets.only(bottom: 15, left: 10, right: 10),
-          color: Colors.black12,
-          child: Text(
-              event.descripcion!,
-              style: TextStyle(fontSize: 16,backgroundColor: Colors.black45),
-              textAlign: TextAlign.center,
-            )
-        ),
-        background: Hero(
-          tag: event.evento!,
-          child: FadeInImage(
-            placeholder: AssetImage('assets/images/loading.gif'),
-            image: NetworkImage(event.fullPathImg),
-            fit: BoxFit.cover,
+    return SliverLayoutBuilder(builder: (BuildContext context, constraints){
+            final scrolled = constraints.scrollOffset > 0;
+
+            var percent = 1 - (constraints.scrollOffset < 145 ? constraints.scrollOffset / 145 : 1);
+
+            var cr = 255 * percent;
+            var cg = (255 - 151) * percent;
+            var cb = (255 - 152) * percent;
+
+            var colorDeg = Color.fromARGB(255, (0+cr).toInt(), (151+cg).toInt(), (152+cb).toInt());
+
+            return
+      SliverAppBar(
+        //automaticallyImplyLeading: false,
+        //primary: false,
+        //backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: colorDeg,
+        expandedHeight: 200,
+        elevation: 0.0,
+        floating: false,
+        pinned: true,
+        flexibleSpace: FlexibleSpaceBar(
+          collapseMode: CollapseMode.parallax,
+          centerTitle: true,
+          titlePadding: EdgeInsets.all(0),
+          title: Container(
+            width: double.infinity,
+            alignment: Alignment.bottomCenter,
+            padding: EdgeInsets.only(bottom: 15, left: percent == 1 ? 10 : 40, right: 10),
+            color: Color.fromARGB((100*percent).toInt(), 0, 0, 0),
+            child: Text(
+                event.descripcion!,
+                style: TextStyle(fontSize: 16,backgroundColor: Color.fromARGB(0, 0, 0, 0)),
+                textAlign: TextAlign.center,
+                maxLines: percent == 0 ? 2 : 4,
+              )
           ),
-        )
-      ),
-    );
+          background: 
+              Hero(              
+                tag: event.evento!,
+                child: FadeInImage(
+                  //height: 150,
+                  placeholder: AssetImage('assets/images/loading.gif'),
+                  image: NetworkImage(event.fullPathImg),
+                  fit: BoxFit.cover,
+                ),
+              ),
+        ),
+      );
+  });
   }
 }
 

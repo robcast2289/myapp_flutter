@@ -15,8 +15,8 @@ class CardList extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    if(this.eventos.length == 0){
-      return Container(
+    if(eventos.isEmpty){
+      return SizedBox(
         width: size.width,
         height: size.height,
         child: Center(
