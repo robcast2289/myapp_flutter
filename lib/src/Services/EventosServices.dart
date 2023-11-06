@@ -25,7 +25,6 @@ class EventosServices extends ChangeNotifier{
         if (response.statusCode == 200) {
           String body = utf8.decode(response.bodyBytes);
           final jsonData = jsonDecode(body);
-          print(jsonData);
           return EventosLogin.fromJson(jsonData);
         }
         else {

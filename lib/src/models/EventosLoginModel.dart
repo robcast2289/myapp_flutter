@@ -1,7 +1,7 @@
 import 'Evento.dart';
 
 class EventosLogin {
-  Null? categorias;
+  dynamic? categorias;
   List<Evento>? eventos;
 
   EventosLogin({this.categorias, this.eventos});

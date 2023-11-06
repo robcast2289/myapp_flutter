@@ -40,6 +40,7 @@ class EventoHead extends StatelessWidget {
           ),
           Text(event.descripcion!, style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
         },
+        SizedBox(height: 5,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -65,6 +66,7 @@ class EventoHead extends StatelessWidget {
             ),
           ],
         ),
+        SizedBox(height: 8,),
         if(event.finasignacion != null)...{
         Row(
           children: [
@@ -78,6 +80,53 @@ class EventoHead extends StatelessWidget {
           ],
         ),
         },
+        SizedBox(height: 5,),
+        if(event.diploma == "1")...{
+          Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.horizontal(left: Radius.circular(8)),
+                  color: Colors.amber
+                ),
+                padding: EdgeInsets.only(top: 6,bottom: 5,left: 8,right: 3),
+                child: Icon(Icons.description,size: 15.0,)
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.horizontal(right: Radius.circular(8)),
+                  color: Colors.amber
+                ),
+                padding: EdgeInsets.only(top: 5,bottom: 5,right: 15),
+                child: Text("Inlcuye diploma"),
+              )
+            ],
+          )
+        },
+        SizedBox(height: 5,),
+        if(event.pagos != null && int.parse(event.pagos!) > 1)...{
+          Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.horizontal(left: Radius.circular(8)),
+                  color: Colors.blueGrey
+                ),
+                padding: EdgeInsets.only(top: 6,bottom: 5,left: 8,right: 3),
+                child: Icon(Icons.payments,size: 15.0,color: Colors.white,)
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.horizontal(right: Radius.circular(8)),
+                  color: Colors.blueGrey
+                ),
+                padding: EdgeInsets.only(top: 5,bottom: 5,right: 15),
+                child: Text("Hasta en ${event.pagos!} pagos",style: TextStyle(color: Colors.white),),
+              )
+            ],
+          )
+        },
+        SizedBox(height: 5,),
         Row(
           children: [
             (_detalle ?
@@ -85,7 +134,11 @@ class EventoHead extends StatelessWidget {
               Icon(Icons.credit_card,size: 15.0,)
             ),
             SizedBox(width: 5,),
-            Text(numFormat.format(double.parse(event.precio!)),style: TextStyle(fontWeight: FontWeight.bold),)
+            Row(
+              children: [                
+                Text(numFormat.format(double.parse(event.precio!)),style: TextStyle(fontWeight: FontWeight.bold),),
+              ],
+            )
           ],
         )
       ],
