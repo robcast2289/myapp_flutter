@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:myapp/src/Pages/EventoPage.dart';
 import 'package:myapp/src/Pages/Home.dart';
@@ -12,12 +11,14 @@ void main() {
 }
 
 class AppState extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create:(context) => EventosServices(), lazy: false,)
+        ChangeNotifierProvider(
+          create: (context) => EventosServices(),
+          lazy: false,
+        )
       ],
       child: MyApp(),
     );
@@ -49,17 +50,15 @@ class MyApp extends StatelessWidget {
       title: 'Material App',
       initialRoute: 'home',
       routes: {
-        'home':(context) => HomePage(),
-        'evento':(context) => eventoPage()
+        'home': (context) => HomePage(),
+        'evento': (context) => eventoPage()
       },
       theme: ThemeData.light().copyWith(
-        //primarySwatch: getMaterialColor(Color(0xff009798))
-        appBarTheme: AppBarTheme(
-          color: getMaterialColor(Color(0xff009798)),
-        )
-      ),
+          //primarySwatch: getMaterialColor(Color(0xff009798))
+          appBarTheme: AppBarTheme(
+        color: getMaterialColor(Color(0xff009798)),
+      )),
       //home: HomePage()
     );
   }
 }
-
