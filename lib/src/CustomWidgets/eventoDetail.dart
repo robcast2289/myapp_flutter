@@ -87,7 +87,7 @@ class EventoDetail extends StatelessWidget {
                   //loop: false,
                   itemCount: detEvent.personal.length,
                 ) */
-                Flexible(
+                /* Flexible(
                   child: Swiper(
                     itemWidth: 200,
                     itemBuilder: (BuildContext context, int index) {
@@ -101,7 +101,13 @@ class EventoDetail extends StatelessWidget {
                     viewportFraction: 0.8,
                     scale: 0.9,
                   ),
-                )
+                ) */
+                ListView.builder(
+                    itemCount: detEvent.personal.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext context, int index) =>
+                        _CastCard(persona: detEvent.personal[index]))
+                /* Text(detEvent.personal.length.toString()) */
               },
               if (detEvent.galeria.isNotEmpty) ...{
                 /* Swiper(
@@ -148,6 +154,45 @@ class EventoDetail extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _CastCard extends StatelessWidget {
+  final Personal persona;
+
+  const _CastCard({super.key, required this.persona});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      width: 110,
+      height: 100,
+      //color: Colors.green,
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/SinPerfil.png'),
+              image: NetworkImage(persona.fullPathImg),
+              height: 140,
+              width: 100,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            persona.nombre,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
     );
   }
 }
