@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/src/CustomWidgets/NavigationBar.dart';
 import 'package:myapp/src/Pages/EventoPage.dart';
 import 'package:myapp/src/Pages/Home.dart';
 import 'package:intl/intl.dart';
@@ -48,8 +49,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Material App',
-      initialRoute: 'home',
+      initialRoute: 'root',
       routes: {
+        'root': (context) => BottomNavigationBarEventsApp(),
         'home': (context) => HomePage(),
         'evento': (context) => eventoPage()
       },
