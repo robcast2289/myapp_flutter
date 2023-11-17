@@ -207,6 +207,9 @@ class _startEndDate extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                /* Icon(
+                  Icons.calendar_month_outlined,
+                ), */
                 Text(
                   DateFormat('dd').format(DateTime.parse(date)),
                   style: TextStyle(
