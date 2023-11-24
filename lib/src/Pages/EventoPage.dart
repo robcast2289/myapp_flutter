@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/src/CustomWidgets/eventoDetail.dart';
@@ -29,45 +30,125 @@ class eventoPage extends StatelessWidget {
         body: CustomScrollView(
       slivers: [
         _CustomAppBar(event: event),
-        SliverAppBar(
-          backgroundColor: Color.fromARGB(144, 255, 255, 255),
-          elevation: 1.0,
-          floating: false,
-          pinned: true,
-          primary: false,
-          automaticallyImplyLeading: false,
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: CollapseMode.parallax,
-            centerTitle: true,
-            titlePadding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-            title: FilledButton(
-              style: FilledButton.styleFrom(
-                  foregroundColor: Color.fromARGB(255, 255, 255, 255),
-                  backgroundColor: Color.fromARGB(255, 199, 100, 20)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(
-                    Icons.add_shopping_cart,
-                    size: 20.0,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    'AGREGAR AL CARRITO',
-                  ),
-                ],
-              ),
-              onPressed: () {
-                // ...
-              },
-            ),
-          ),
-        ),
+        _AddToCartButtom(),
         SliverList(
           delegate: SliverChildListDelegate(
               [_Overview(event: event), EventoDetail(eventId: event.evento!)]),
+        )
+      ],
+    ));
+  }
+}
+
+class _AddToCartButtom extends StatelessWidget {
+  const _AddToCartButtom({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      backgroundColor: Color.fromARGB(144, 255, 255, 255),
+      elevation: 1.0,
+      floating: false,
+      pinned: true,
+      primary: false,
+      automaticallyImplyLeading: false,
+      flexibleSpace: FlexibleSpaceBar(
+        collapseMode: CollapseMode.parallax,
+        centerTitle: true,
+        titlePadding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
+        title: FilledButton(
+          style: FilledButton.styleFrom(
+              foregroundColor: Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: Color.fromARGB(255, 199, 100, 20)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Icon(
+                Icons.add_shopping_cart,
+                size: 20.0,
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                'AGREGAR AL CARRITO',
+              ),
+            ],
+          ),
+          onPressed: () {
+            // ...
+            showGeneralDialog(
+              barrierDismissible: true,
+              barrierLabel: "Sign In",
+              context: context,
+              pageBuilder: (context, _, __) => Center(
+                child: Container(
+                  height: 620,
+                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+                  decoration: BoxDecoration(
+                      color:
+                          //Color.fromARGB(255, 216, 218, 255).withOpacity(0.94),
+                          Color.fromARGB(255, 255, 255, 255).withOpacity(0.94),
+                      borderRadius: BorderRadius.all(Radius.circular(40))),
+                  child: Scaffold(
+                      backgroundColor: Colors.transparent,
+                      body: Column(
+                        children: const [
+                          Text(
+                            "Iniciar Sesión",
+                            style:
+                                TextStyle(fontSize: 34, fontFamily: "Poppins"),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                              "Access to 240+ hours of content. Learn design and code, by building real apps with Flutter and swift.",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          SignInForm()
+                        ],
+                      )),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class SignInForm extends StatelessWidget {
+  const SignInForm({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+        child: Column(
+      children: [
+        TextFormField(),
+        Padding(
+          padding: const EdgeInsets.only(top: 8, bottom: 25),
+          child: ElevatedButton.icon(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFF77D8E),
+                  minimumSize: Size(double.infinity, 56),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(25),
+                    bottomLeft: Radius.circular(25),
+                    bottomRight: Radius.circular(25),
+                  ))),
+              icon: Icon(CupertinoIcons.arrow_right),
+              label: Text("Inica sesión")),
         )
       ],
     ));
